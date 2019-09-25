@@ -37,6 +37,8 @@ import org.junit.runner.RunWith;
 
 import javax.servlet.ServletException;
 
+import java.net.InetAddress;
+
 import static io.undertow.servlet.Servlets.servlet;
 
 /**
@@ -86,7 +88,8 @@ public class HttpHostValuesTestCase {
             if(System.getProperty("os.name").toLowerCase().contains("windows") || System.getSecurityManager() != null) {
                 Assert.assertTrue(String.format("hostName: %s , response: %s", DefaultServer.getDefaultServerAddress().toString(), response), DefaultServer.getDefaultServerAddress().toString().contains(response));
             } else {
-                Assert.assertTrue(String.format("hostName: %s , response: %s", DefaultServer.getHostAddress(), response), DefaultServer.getHostAddress().equals(response));
+                String hostName = InetAddress.getLocalHost().getHostName();
+                Assert.assertTrue(String.format("hostName: %s , response: %s", hostName, response), hostName.equals(response));
             }
 
         } finally {
